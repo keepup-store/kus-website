@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "build",
+    "strict": true,
+    "lib": ["ESNext"],
+    "target": "ES2016",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  }
+}
+
+
