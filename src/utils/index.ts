@@ -32,3 +32,37 @@ export const sendMessageToTelegram = (type: TelegramMessageType, message: string
     console.dir(err);
   });
 }
+
+export const extractStoreDomain = (req: any): string => {
+  // Get the host from the request headers
+  const host: string = req.headers.host;
+
+  // Check if the host contains "keepup.store"
+  if (host && host.includes("keepup.store")) {
+      // Split the host by "." to extract the subdomain
+      const parts: string[] = host.split(".");
+      
+      // Return the first part as the subdomain
+      return parts.length > 2 ? parts[0] : '';
+  } else {
+      // If "keepup.store" is not part of the host, return the host domain
+      return host;
+  }
+}
+
+export const getLocation = async(ipAddress: string): Promise<{ country: string, countryCode: string }> => {
+  try {
+      // Make a request to an IP geolocation API to get the user's location
+      const response = await axios.get(`http://ip-api.com/json/${ipAddress}`);
+
+      // Extract relevant location data from the API response
+      const { country, countryCode } = response.data;
+
+      // Return the location data
+      return { country, countryCode };
+  } catch (error) {
+      // Handle any errors that occur during the process
+      console.error('Error getting location:', error);
+      throw new Error('Failed to fetch location data');
+  }
+}
