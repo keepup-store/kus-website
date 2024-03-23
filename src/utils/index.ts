@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
 type TelegramMessageType = 'alert' | 'bug' | 'registration' | 'kus_stats' | 'logs';
@@ -65,4 +66,10 @@ export const getLocation = async(ipAddress: string): Promise<{ country: string, 
       console.error('Error getting location:', error);
       throw new Error('Failed to fetch location data');
   }
+}
+
+export const getStoreAxiosHeaders = (store: string) => {
+  const access_token = { store };
+  const jwtAccessToken = jwt.sign({access_token}, process.env.JWT_KEY ?? '', { expiresIn: '1d' });
+  return { headers: {"Authorization" : `Bearer ${jwtAccessToken}`} }
 }

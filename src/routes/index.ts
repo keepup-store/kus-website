@@ -1,5 +1,6 @@
 import express from 'express';
 import landingPageRoutes from './landing-page';
+import storeRoutes from './store';
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ const router = express.Router();
 // router.use('/cookie-policy', paymentsRoutes);
 // router.use('/about', inventoryRoutes);
 // router.use('/release-notes', servicesRoutes);
+router.use('/store', storeRoutes);
 router.use('/', landingPageRoutes);
 
 export default router;

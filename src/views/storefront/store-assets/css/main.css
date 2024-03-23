@@ -14069,7 +14069,7 @@ div.tp-author-info-avater img {
   font-weight: 600;
 }
 .cartmini__widget {
-  height: calc(100vh - 380px);
+  height: calc(100vh - 250px);
   overflow-y: scroll;
   overscroll-behavior-y: contain;
   scrollbar-width: none;
@@ -14091,8 +14091,9 @@ div.tp-author-info-avater img {
   margin-right: 15px;
 }
 .cartmini__thumb img {
-  width: 70px;
-  height: auto;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
 }
 .cartmini__title {
   font-size: 15px;
@@ -14160,7 +14161,7 @@ div.tp-author-info-avater img {
 }
 .cartmini__checkout {
   padding-top: 15px;
-  padding-bottom: 85px;
+  padding-bottom: 35px;
   width: 100%;
   background: var(--tp-common-white);
   border-top: 2px solid var(--tp-border-primary);
@@ -15830,7 +15831,10 @@ div.tp-author-info-avater img {
   -o-transform: scale(1.1);
   transform: scale(1.1);
 }
-.tp-product-list-item:not(:last-child) {
+.tp-product-list-item {
+  border: 1px solid #E0E2E3;
+}
+.tp-product-list-item:not(:last-child) {  
   margin-bottom: 24px;
 }
 .tp-product-list-item:hover .tp-product-list-thumb img {
@@ -15854,7 +15858,7 @@ div.tp-author-info-avater img {
   transform: translateY(-50%);
 }
 .tp-product-list-item .tp-product-list-content {
-  border: 1px solid #E0E2E3;
+  /* border: 1px solid #E0E2E3; */
   border-left: 0;
   padding-left: 60px;
   padding-right: 70px;
@@ -15874,7 +15878,7 @@ div.tp-author-info-avater img {
 }
 @media only screen and (min-width: 576px) and (max-width: 767px), (max-width: 575px) {
   .tp-product-list-item .tp-product-list-content {
-    border: 1px solid #E0E2E3;
+    /* border: 1px solid #E0E2E3; */
     border-top: 0;
   }
 }
@@ -15912,9 +15916,18 @@ div.tp-author-info-avater img {
 }
 .tp-product-list-thumb a img {
   width: 100%;
-  height: 100%;
+  height: 300px;
   object-fit: cover;
 }
+
+/* Adjust the width of the images on large screens */
+@media screen and (min-width: 1200px) {
+  .tp-product-list-thumb a img {
+      width: 400px;
+      /* height: auto; */
+  }
+}
+
 .tp-product-related-slider .tp-swiper-scrollbar {
   background-color: #EDEFF2;
   width: calc(100% - 410px);
@@ -16231,6 +16244,8 @@ product all slider
 }
 .tp-product-thumb-2 img {
   width: 100%;
+  height: 350px;
+  object-fit: cover;
 }
 
 /*----------------------------------------*/
@@ -18500,14 +18515,13 @@ product all slider
 .tp-shop-widget-checkbox ul li label:hover {
   cursor: pointer;
 }
-.tp-shop-widget-categories {
+/* .tp-shop-widget-categories {
   height: 288px;
-  overflow-y: scroll;
   overflow-y: scroll;
   overscroll-behavior-y: contain;
   scrollbar-width: thin;
   padding-right: 10px;
-}
+} */
 .tp-shop-widget-categories ul li {
   list-style: none;
   width: 100%;

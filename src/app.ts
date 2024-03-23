@@ -4,7 +4,6 @@ import requestIp from 'request-ip';
 import cors from "cors";
 import mustacheExpress from 'mustache-express';
 import routes from './routes';
-console.log("check0")
 const app = express();
 app.use(cors());
 

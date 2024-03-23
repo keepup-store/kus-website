@@ -35,8 +35,8 @@ router.get('/', async (req: Request, res: Response) => {
       location: 'Adenta, Ghana',
       description: 'Download this Premium Vector about Drink cup packaging soft drink logo template, and discover more than 150 Million Professional Graphic Resources on Freepik',
       banners: {
-        landscape: '',
-        portrait: ''
+        landscape: '/store-assets/img/banner/kus_banner.jpg',
+        portrait: '/store-assets/img/banner/p3.jpg'
       },
       socials: {
         twitter: '',
@@ -52,6 +52,5 @@ router.get('/', async (req: Request, res: Response) => {
   });
 
 });
-
 
 export default router;
