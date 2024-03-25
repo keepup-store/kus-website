@@ -10,10 +10,11 @@
                 <div class="tp-shop-widget-content">
                   <div class="tp-sidebar-widget">
                       <div class="tp-sidebar-search">
-                        <form action="#">
+                        <form class="filter-products" action="/store/products" hx-get="/store/products" hx-trigger="submit" hx-target="#productList">
                             <div class="tp-sidebar-search-input">
-                              <input type="text" placeholder="Search for products...">
-                              <button type="submit">
+                              <input class="filter-products" type="text" name="search" value="{{filter.search}}" placeholder="Search for products...">
+                              <input type="hidden" name="category" value="{{filter.category}}">
+                              <button class="filter-products" type="submit">
                                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                     <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -29,27 +30,40 @@
             <!-- categories -->
             <div class="tp-shop-widget mb-50">
                 <h3 class="tp-shop-widget-title">Categories</h3>
-
                 <div class="tp-shop-widget-content">
-                  <div class="tp-shop-widget-categories">
-                      <ul>
-                        <li><a href="#">Leather <span>10</span></a></li>
-                        <li><a href="#">Classic Watch <span>18</span></a></li>
-                        <li><a href="#">Leather Man Wacth <span>22</span></a></li>
-                        <li><a href="#">Trending Watch <span>17</span></a></li>
-                        <li><a href="#">Google <span>22</span></a></li>
-                        <li><a href="#">Woman Wacth <span>14</span></a></li>
-                        <li><a href="#">Tables <span>19</span></a></li>
-                        <li><a href="#">Electronics <span>29</span></a></li>
-                        <li><a href="#">Phones <span>05</span></a></li>
-                        <li><a href="#">Grocery <span>14</span></a></li>
-                      </ul>
-                  </div>
+                    <div class="tp-shop-widget-categories">
+                        <ul>
+                            {{#categories}}
+                            <li><a class="filter-products" href="/store/products?category={{category_name}}&search={{filter.search}}" hx-get="/store/products?category={{category_name}}" hx-trigger="click" hx-target="#productList" hx-push-url="/?search={{filter.search}}&category={{category_name}}">{{category_name}} {{^filter.category}}<span>{{total_products}}</span>{{/filter.category}}</a></li>
+                            {{/categories}}
+                            {{^categories}}
+                            <li><span>No categories</span></li>
+                            {{/categories}}
+                        </ul>
+                    </div>
                 </div>
+            </div>
+
+            <!--reset filter-->
+            <div class="tp-shop-widget mb-50">
+              <a href="/store/products" hx-get="/store/products" hx-trigger="click" hx-target="#productList" class="tp-filter-btn filter-products" hx-push-url="/">
+                <span>
+                    <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14.9998 3.45001H10.7998" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M3.8 3.45001H1" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M6.5999 5.9C7.953 5.9 9.0499 4.8031 9.0499 3.45C9.0499 2.0969 7.953 1 6.5999 1C5.2468 1 4.1499 2.0969 4.1499 3.45C4.1499 4.8031 5.2468 5.9 6.5999 5.9Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M15.0002 11.15H12.2002" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M5.2 11.15H1" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M9.4002 13.6C10.7533 13.6 11.8502 12.5031 11.8502 11.15C11.8502 9.79691 10.7533 8.70001 9.4002 8.70001C8.0471 8.70001 6.9502 9.79691 6.9502 11.15C6.9502 12.5031 8.0471 13.6 9.4002 13.6Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </span>
+                Reset Filter
+              </a>
             </div>
           </div>
       </div>
       <div class="col-xl-9 col-lg-8">
+          {{#has_products}}
           <div class="tp-shop-main-wrapper">
             
             <div class="tp-shop-top mb-45">
@@ -97,7 +111,13 @@
                             <div class="tp-product-item-2 mb-40">
                               <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
                                   <a href="product-details.html">
-                                    <img src="{{thumbnail}}" alt="{{title}}">
+                                    {{#thumbnail}}
+                                      <img src="{{ thumbnail }}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';" alt="{{product_name}}">
+                                    {{/thumbnail}}
+
+                                    {{^thumbnail}}
+                                      <img src="store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
+                                    {{/thumbnail}}
                                   </a>
                                   <!-- product action -->
                                   <div class="tp-product-action-2 tp-product-action-blackStyle">
@@ -129,11 +149,13 @@
                                     <a href="#">Whitetails Store</a>
                                   </div> }}
                                   <h3 class="tp-product-title-2">
-                                    <a href="product-details.html">{{title}}</a>
+                                    <a href="product-details.html">{{product_name}}</a>
                                   </h3>
-                                  <div class="tp-product-price-wrapper-2">
-                                    <span class="tp-product-price-2 new-price">${{price}}</span>
-                                    <span class="tp-product-price-2 old-price">$23</span>
+                                  <div class="tp-product-price-wrapper-2 mt-2">
+                                    <span class="tp-product-price-2 new-price">{{currency}} {{selling_price}}</span>
+                                    {{#previous_price}}
+                                      <span class="tp-product-price-2 old-price">{{currency}} {{previous_price}}</span>
+                                    {{/previous_price}}
                                   </div>
                               </div>
                             </div>
@@ -151,7 +173,13 @@
                               <div class="tp-product-list-item d-md-flex">
                                   <div class="tp-product-list-thumb p-relative fix">
                                     <a href="#">
-                                        <img src="{{thumbnail}}" alt="{{title}}">
+                                      {{#thumbnail}}
+                                        <img src="{{ thumbnail }}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';" alt="{{product_name}}">
+                                      {{/thumbnail}}
+
+                                      {{^thumbnail}}
+                                        <img src="store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
+                                      {{/thumbnail}}
                                     </a>
     
                                     <!-- product action -->
@@ -175,13 +203,15 @@
                                           <a href="#">Branded</a>
                                         </div> }}
                                         <h3 class="tp-product-title-2">
-                                          <a href="product-details.html">{{title}}</a>
+                                          <a href="product-details.html">{{product_name}}</a>
                                         </h3>
-                                        <div class="tp-product-price-wrapper-2">
-                                          <span class="tp-product-price-2 new-price">${{price}}</span>
-                                          {{! <span class="tp-product-price-2 old-price">$99.00</span> }}
+                                        <div class="tp-product-price-wrapper-2 mt-2">
+                                          <span class="tp-product-price-2 new-price">{{currency}} {{selling_price}}</span>
+                                          {{#previous_price}}
+                                            <span class="tp-product-price-2 old-price">{{currency}} {{previous_price}}</span>
+                                          {{/previous_price}}
                                         </div>
-                                        <p>Auctor urna nunc id cursus. Scelerisque purus semper eget duis at pharetra vel turpis nunc eget.</p>
+                                        <p>{{description}}</p>
                                         <div class="tp-product-list-add-to-cart">
                                           <button class="tp-product-list-add-to-cart-btn">Add To Cart</button>
                                         </div>
@@ -195,40 +225,129 @@
                   </div>
                 </div>                            
             </div>
-            <div class="tp-shop-pagination mt-20">
+            {{#pagination}}
+            <div id="pagination" class="tp-shop-pagination mt-20">
                 <div class="tp-pagination">
                   <nav>
                       <ul>
+                        {{#first_page}}
                         <li>
-                            <a href="shop.html" class="tp-pagination-prev prev page-numbers">
+                            <a href="/store/products?page={{first_page}}&search={{filter.search}}&category={{filter.category}}" class="tp-pagination-prev prev page-numbers pagination-item" hx-get="/store/products?page={{first_page}}&search={{filter.search}}&category={{filter.category}}" hx-trigger="click" hx-indicator="#loader" hx-target="#productList" hx-push-url="/?page={{first_page}}&search={{filter.search}}&category={{filter.category}}">
                               <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                   <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                               </svg>
                             </a>
                         </li>
+                        {{/first_page}}
+
+                        {{#pages}}
                         <li>
-                            <a href="shop.html">1</a>
+                            <a href="/store/products?page={{page_number}}&search={{filter.search}}&category={{filter.category}}" 
+                              class="pagination-item {{#current_page}}current{{/current_page}}" 
+                              hx-get="/store/products?page={{page_number}}&search={{filter.search}}&category={{filter.category}}" 
+                              hx-trigger="click"
+                              hx-target="#productList" hx-push-url="/?page={{page_number}}&search={{filter.search}}&category={{filter.category}}">
+                              {{page_number}}
+                            </a>
                         </li>
+                        {{/pages}}
+
+                        {{#last_page}}
                         <li>
-                            <span class="current">2</span>
-                        </li>
-                        <li>
-                            <a href="shop.html">3</a>
-                        </li>
-                        <li>
-                            <a href="shop.html" class="next page-numbers">
+                            <a href="/store/products?page={{last_page}}&search={{filter.search}}&category={{filter.category}}" class="next page-numbers pagination-item" hx-get="/store/products?page={{last_page}}&search={{filter.search}}&category={{filter.category}}" hx-trigger="click" hx-indicator="#loader" hx-target="#productList" hx-push-url="/?page={{last_page}}&search={{filter.search}}&category={{filter.category}}">
                               <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                   <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                               </svg>                                     
                             </a>
                         </li>
+                        {{/last_page}}
                       </ul>
                     </nav>
                 </div>
             </div>
+            {{/pagination}}
+          </div>
+          {{/has_products}}
+          {{^has_products}}
+          <div class="tp-shop-main-wrapper pt-150 pb-150 text-center">
+            <h1 style="font-size: 50px;"><i class="fa-regular fa-box-open"></i></h1>
+            <p>No product found</p>
+          </div>
+          {{/has_products}}
+      </div>
+    </div>
+</div>
+
+<!-- filter offcanvas area start -->
+<div class="tp-filter-offcanvas-area">
+    <div class="tp-filter-offcanvas-wrapper">
+      <div class="tp-filter-offcanvas-close">
+          <button type="button" class="tp-filter-offcanvas-close-btn filter-close-btn">
+            <i class="fa-solid fa-xmark"></i>
+            Close
+          </button>
+      </div>
+      <div class="tp-shop-sidebar">
+          <!-- search filter -->
+          <div class="tp-sidebar-search mb-35">
+            <h3 class="tp-shop-widget-title no-border">Search</h3>
+
+            <div class="tp-shop-widget-content">
+                <div class="tp-sidebar-widget">
+                  <div class="tp-sidebar-search">
+                      <form class="filter-products" action="/store/products" hx-get="/store/products" hx-trigger="submit" hx-target="#productList">
+                          <div class="tp-sidebar-search-input">
+                            <input class="filter-products" type="text" name="search" value="{{filter.search}}" placeholder="Search for products...">
+                            <input type="hidden" name="category" value="{{filter.category}}">
+                            <button type="submit" class="filter-products">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                  <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </button>
+                          </div>
+                      </form>
+                  </div>
+                </div>
+            </div>
+          </div>
+          
+          <!-- categories -->
+          <div class="tp-shop-widget mb-50">
+              <h3 class="tp-shop-widget-title">Categories</h3>
+              <div class="tp-shop-widget-content">
+                  <div class="tp-shop-widget-categories">
+                      <ul>
+                          {{#categories}}
+                          <li><a class="filter-products" href="/store/products?category={{category_name}}&search={{filter.search}}" hx-get="/store/products?category={{category_name}}" hx-trigger="click" hx-target="#productList" hx-push-url="/?search={{filter.search}}&category={{category_name}}">{{category_name}} {{^filter.category}}<span>{{total_products}}</span>{{/filter.category}}</a></li>
+                          {{/categories}}
+                          {{^categories}}
+                          <li><span>No categories</span></li>
+                          {{/categories}}
+                      </ul>
+                  </div>
+              </div>
+          </div>
+
+          <!--reset filter-->
+          <div class="tp-shop-widget mb-50">
+            <a href="/store/products" hx-get="/store/products?category={{category_name}}" hx-trigger="click" hx-target="#productList" class="tp-filter-btn filter-products" hx-push-url="/">
+              <span>
+                  <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.9998 3.45001H10.7998" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M3.8 3.45001H1" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M6.5999 5.9C7.953 5.9 9.0499 4.8031 9.0499 3.45C9.0499 2.0969 7.953 1 6.5999 1C5.2468 1 4.1499 2.0969 4.1499 3.45C4.1499 4.8031 5.2468 5.9 6.5999 5.9Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M15.0002 11.15H12.2002" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M5.2 11.15H1" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M9.4002 13.6C10.7533 13.6 11.8502 12.5031 11.8502 11.15C11.8502 9.79691 10.7533 8.70001 9.4002 8.70001C8.0471 8.70001 6.9502 9.79691 6.9502 11.15C6.9502 12.5031 8.0471 13.6 9.4002 13.6Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+              </span>
+              Reset Filter
+            </a>
           </div>
       </div>
     </div>
 </div>
+<!-- filter offcanvas area end -->

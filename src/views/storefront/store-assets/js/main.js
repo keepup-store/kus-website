@@ -431,7 +431,7 @@
 	 </div>`;
 	 settings.append(settings_html);
 	}
-	tp_settings_append(false); // if want to enable dark light mode then send "true";
+	// tp_settings_append(false); // if want to enable dark light mode then send "true";
 
 	// settings open btn
 	$(".tp-theme-settings-open-btn").on("click", function () {
@@ -536,113 +536,113 @@
 
 
 	// color settings
-	function tp_color_settings() {
+	// function tp_color_settings() {
 
-		// set color scheme
-		function tp_set_color(tp_color_scheme) {
-			localStorage.setItem('tp_color_scheme', tp_color_scheme);
-			document.querySelector(':root').style.setProperty('--tp-theme-primary', tp_color_scheme);
-			document.getElementById("tp-color-setings-input").value = tp_color_scheme;
-			document.getElementById("tp-theme-color-label").style.backgroundColor = tp_color_scheme;
-		}
+	// 	// set color scheme
+	// 	function tp_set_color(tp_color_scheme) {
+	// 		localStorage.setItem('tp_color_scheme', tp_color_scheme);
+	// 		document.querySelector(':root').style.setProperty('--tp-theme-primary', tp_color_scheme);
+	// 		document.getElementById("tp-color-setings-input").value = tp_color_scheme;
+	// 		document.getElementById("tp-theme-color-label").style.backgroundColor = tp_color_scheme;
+	// 	}
 
-		// set color
-		function tp_set_input() {
-			var color = localStorage.getItem('tp_color_scheme');
-			document.getElementById("tp-color-setings-input").value = color;
-			document.getElementById("tp-theme-color-label").style.backgroundColor = color;
-
-
-		}
-		tp_set_input();
-
-		function tp_init_color() {
-			var defaultColor = $(".tp-color-settings-btn").attr('data-color-default');
-			var setColor = localStorage.getItem('tp_color_scheme');
-
-			if (setColor != null) {
-
-			} else {
-				setColor = defaultColor;
-			}
-
-			if (defaultColor !== setColor) {
-				document.querySelector(':root').style.setProperty('--tp-theme-primary', setColor);
-				document.getElementById("tp-color-setings-input").value = setColor;
-				document.getElementById("tp-theme-color-label").style.backgroundColor = setColor;
-				tp_set_color(setColor);
-			} else {
-				document.querySelector(':root').style.setProperty('--tp-theme-primary', defaultColor);
-				document.getElementById("tp-color-setings-input").value = defaultColor;
-				document.getElementById("tp-theme-color-label").style.backgroundColor = defaultColor;
-				tp_set_color(defaultColor);
-			}
-		}
-		tp_init_color();
+	// 	// set color
+	// 	function tp_set_input() {
+	// 		var color = localStorage.getItem('tp_color_scheme');
+	// 		document.getElementById("tp-color-setings-input").value = color;
+	// 		document.getElementById("tp-theme-color-label").style.backgroundColor = color;
 
 
-		let themeButtons = document.querySelectorAll('.tp-color-settings-btn');
+	// 	}
+	// 	tp_set_input();
 
-		themeButtons.forEach(color => {
-			color.addEventListener('click', () => {
-				let datacolor = color.getAttribute('data-color');
-				document.querySelector(':root').style.setProperty('--tp-theme-primary', datacolor);
-				document.getElementById("tp-theme-color-label").style.backgroundColor = datacolor;
-				tp_set_color(datacolor);
-			});
-		});
+	// 	function tp_init_color() {
+	// 		var defaultColor = $(".tp-color-settings-btn").attr('data-color-default');
+	// 		var setColor = localStorage.getItem('tp_color_scheme');
+
+	// 		if (setColor != null) {
+
+	// 		} else {
+	// 			setColor = defaultColor;
+	// 		}
+
+	// 		if (defaultColor !== setColor) {
+	// 			document.querySelector(':root').style.setProperty('--tp-theme-primary', setColor);
+	// 			document.getElementById("tp-color-setings-input").value = setColor;
+	// 			document.getElementById("tp-theme-color-label").style.backgroundColor = setColor;
+	// 			tp_set_color(setColor);
+	// 		} else {
+	// 			document.querySelector(':root').style.setProperty('--tp-theme-primary', defaultColor);
+	// 			document.getElementById("tp-color-setings-input").value = defaultColor;
+	// 			document.getElementById("tp-theme-color-label").style.backgroundColor = defaultColor;
+	// 			tp_set_color(defaultColor);
+	// 		}
+	// 	}
+	// 	tp_init_color();
+
+
+	// 	let themeButtons = document.querySelectorAll('.tp-color-settings-btn');
+
+	// 	themeButtons.forEach(color => {
+	// 		color.addEventListener('click', () => {
+	// 			let datacolor = color.getAttribute('data-color');
+	// 			document.querySelector(':root').style.setProperty('--tp-theme-primary', datacolor);
+	// 			document.getElementById("tp-theme-color-label").style.backgroundColor = datacolor;
+	// 			tp_set_color(datacolor);
+	// 		});
+	// 	});
 
 
 
-		const colorInput = document.querySelector('#tp-color-setings-input');
-		const colorVariable = '--tp-theme-1';
+	// 	const colorInput = document.querySelector('#tp-color-setings-input');
+	// 	const colorVariable = '--tp-theme-1';
 
 
-		colorInput.addEventListener('change', function (e) {
-			var clr = e.target.value;
-			document.documentElement.style.setProperty(colorVariable, clr);
-			tp_set_color(clr);
-			tp_set_check(clr);
-		});
+	// 	colorInput.addEventListener('change', function (e) {
+	// 		var clr = e.target.value;
+	// 		document.documentElement.style.setProperty(colorVariable, clr);
+	// 		tp_set_color(clr);
+	// 		tp_set_check(clr);
+	// 	});
 
 
-		function tp_set_check(clr){
-			const arr = Array.from(document.querySelectorAll('[data-color]'));
+	// 	function tp_set_check(clr){
+	// 		const arr = Array.from(document.querySelectorAll('[data-color]'));
 	
-			var a = localStorage.getItem('tp_color_scheme');
+	// 		var a = localStorage.getItem('tp_color_scheme');
 
-			let test =  arr.map(color =>{
-				let datacolor = color.getAttribute('data-color');
+	// 		let test =  arr.map(color =>{
+	// 			let datacolor = color.getAttribute('data-color');
 				
-				return datacolor;
-			}).filter(color => color == a);
+	// 			return datacolor;
+	// 		}).filter(color => color == a);
 			
-			var arrLength = test.length;
+	// 		var arrLength = test.length;
 
-			if(arrLength == 0){
-				$('.tp-color-active').removeClass('active');
-			}else{
-				$('.tp-color-active').addClass('active');
-			}
-		}
+	// 		if(arrLength == 0){
+	// 			$('.tp-color-active').removeClass('active');
+	// 		}else{
+	// 			$('.tp-color-active').addClass('active');
+	// 		}
+	// 	}
 
-		function tp_check_color(){
-			var a = localStorage.getItem('tp_color_scheme');
+	// 	function tp_check_color(){
+	// 		var a = localStorage.getItem('tp_color_scheme');
 
-			var list = $(`[data-color="${a}"]`);
+	// 		var list = $(`[data-color="${a}"]`);
 
-			list.parent().addClass('active').parent().siblings().find('.tp-color-active').removeClass('active')		
-		}
-		tp_check_color();
+	// 		list.parent().addClass('active').parent().siblings().find('.tp-color-active').removeClass('active')		
+	// 	}
+	// 	tp_check_color();
 
-		$('.tp-color-active').on('click', function () {
-			$(this).addClass('active').parent().siblings().find('.tp-color-active').removeClass('active');
-		});
+	// 	$('.tp-color-active').on('click', function () {
+	// 		$(this).addClass('active').parent().siblings().find('.tp-color-active').removeClass('active');
+	// 	});
 
-	}
-	if (($(".tp-color-settings-btn").length > 0) && ($("#tp-color-setings-input").length > 0) && ($("#tp-theme-color-label").length > 0)) {
-		tp_color_settings();
-	}
+	// }
+	// if (($(".tp-color-settings-btn").length > 0) && ($("#tp-color-setings-input").length > 0) && ($("#tp-theme-color-label").length > 0)) {
+	// 	tp_color_settings();
+	// }
 
 
 
@@ -2017,4 +2017,30 @@
 		});
 	}
 
+	var currentYear = new Date().getFullYear();
+  // Set the current year in the span element
+  document.getElementById('currentYear').textContent = currentYear;
+
+
+	document.addEventListener('DOMContentLoaded', function () {
+		// Show loader when products are being requested
+		document.body.addEventListener('htmx:beforeSend', function (event) {
+			
+				if (event.target.id === 'productList' || 
+				event.target.classList.contains('pagination-item') || 
+				event.target.classList.contains('filter-products')) {
+						document.getElementById('productList').style.display = 'none';
+						document.getElementById('loader').style.display = 'block';
+				}
+		});
+
+		// Show products container when products are loaded
+		document.body.addEventListener('htmx:afterSwap', function (event) {
+			console.log('testing hide event');
+				if (event.target.id === 'productList') {
+						document.getElementById('loader').style.display = 'none';
+						document.getElementById('productList').style.display = 'block';
+				}
+		});
+	});
 })(jQuery);

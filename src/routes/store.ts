@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { extractStoreDomain, getLocation, getStoreAxiosHeaders } from '../utils';
-import { baseURLs, subscriptionPackages } from '../utils/constants';
+import { baseURLs } from '../utils/constants';
 import axios from 'axios';
 
 const router = express.Router();
@@ -9,16 +9,15 @@ router.get('/products', async (req: Request, res: Response) => {
   let host = extractStoreDomain(req);
   const ipAddress = req.clientIp;
 
-  console.log(host);
   host = 'glampack';
 
   let { 
-		product, 
+		search, 
 		category,
 		page,
 	} = req.query;
 
-  product = typeof product === 'string' ? product : '';
+  search = typeof search === 'string' ? search : '';
   category = typeof category === 'string' ? category : '';
   page = typeof page === 'string' ? page : '';
 
@@ -33,7 +32,7 @@ router.get('/products', async (req: Request, res: Response) => {
   axios.get(baseURLs.API_URL + "/online-store/products", {
     params: {
       limit: 12,
-      product_name: product,
+      product_name: search,
       category,
       page: currentPage
     },
@@ -42,6 +41,7 @@ router.get('/products', async (req: Request, res: Response) => {
   .then((response) => {
       let responseInfo = response.data;
       let totalProducts = responseInfo.data.meta.total_records;
+      let currency = responseInfo.data.currency;
       let products = responseInfo.data.products;
       let categories = responseInfo.data.categories;
 
@@ -55,8 +55,12 @@ router.get('/products', async (req: Request, res: Response) => {
       right = currentPage + delta + 1,
       pages = [];
 
-      pages = Array.from({ length: totalPages }, (v, k) => k + 1)
-      .filter((i) => i && i >= left && i < right);
+      // Generate the pages array
+      pages = Array.from({ length: totalPages }, (v, k) => {
+        const pageNumber = k + 1;
+        const isCurrentPage = pageNumber === currentPage;
+        return { page_number: pageNumber, current_page: isCurrentPage };
+      }).filter(page => page.page_number >= left && page.page_number < right);
     
       return res.render('storefront/partials/product-list', { 
         meta: {
@@ -64,13 +68,18 @@ router.get('/products', async (req: Request, res: Response) => {
           start,
           end
         },
+        currency,
+        has_products: products.length > 0 ? true : false,
         products,
         categories,
-        pages,
+        pagination: {
+          pages,
+          first_page: currentPage > 1 ? 1 : false,
+          last_page: totalPages === currentPage ? false : totalPages
+        },
         filter: {
-          product,
-          category,
-          page: currentPage
+          search,
+          category
         }
       });
 

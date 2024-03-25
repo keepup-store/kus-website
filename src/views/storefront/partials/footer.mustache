@@ -1,0 +1,126 @@
+<footer>
+    <div class="tp-footer-area tp-footer-style-2 tp-footer-style-3 tp-footer-style-4" data-bg-color="#F5F5F5" style="background-color: rgb(245, 245, 245);">
+      <div class="tp-footer-top pt-95 pb-40">
+          <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                  <div class="tp-footer-widget footer-col-4-1 mb-50">
+                      <div class="tp-footer-logo">
+                        <a href="/">
+                            <!-- If header_logo is not empty -->
+                            {{#header_logo}}
+                              <img src="{{ header_logo }}" height="60px" alt="{{business_name}}">
+                            {{/header_logo}}
+
+                            <!-- If header_logo is empty -->
+                            {{^header_logo}}
+                              <span class="fw-bold fs-6 lh-sm d-flex align-items-center" style="font-family: monospace;">
+                                  <i class="fa-regular fa-bag-shopping pe-2 fs-4"></i> 
+                                  <span>{{business_name}}</span>
+                              </span>
+                            {{/header_logo}}
+                        </a>
+                      </div>
+                      <div class="tp-footer-widget-content">
+                        <div class="tp-footer-talk mb-20">
+                            <span>Got Questions? Call us</span>
+                            <h4><a href="tel:{{phone_number}}">{{phone_number}}</a></h4>
+                        </div>
+                        <div class="tp-footer-contact">
+                            {{#email}}
+                            <div class="tp-footer-contact-item d-flex align-items-start">
+                              <div class="tp-footer-contact-icon">
+                                  <span>
+                                    <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 5C1 2.2 2.6 1 5 1H13C15.4 1 17 2.2 17 5V10.6C17 13.4 15.4 14.6 13 14.6H5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M13 5.40039L10.496 7.40039C9.672 8.05639 8.32 8.05639 7.496 7.40039L5 5.40039" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M1 11.4004H5.8" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M1 8.19922H3.4" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                  </span>
+                              </div>
+                              <div class="tp-footer-contact-content">
+                                  <p><a href="mailto:{{email}}">{{email}}</a></p>
+                              </div>
+                            </div>
+                            {{/email}}
+                            <div class="tp-footer-contact-item d-flex align-items-start">
+                              <div class="tp-footer-contact-icon">
+                                  <span>
+                                    <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.50001 10.9417C9.99877 10.9417 11.2138 9.72668 11.2138 8.22791C11.2138 6.72915 9.99877 5.51416 8.50001 5.51416C7.00124 5.51416 5.78625 6.72915 5.78625 8.22791C5.78625 9.72668 7.00124 10.9417 8.50001 10.9417Z" stroke="currentColor" stroke-width="1.5"></path>
+                                        <path d="M1.21115 6.64496C2.92464 -0.887449 14.0841 -0.878751 15.7889 6.65366C16.7891 11.0722 14.0406 14.8123 11.6313 17.126C9.88298 18.8134 7.11704 18.8134 5.36006 17.126C2.95943 14.8123 0.210885 11.0635 1.21115 6.64496Z" stroke="currentColor" stroke-width="1.5"></path>
+                                    </svg>
+                                  </span>
+                              </div>
+                              {{#location}}
+                              <div class="tp-footer-contact-content">
+                                  <p>{{location}}</p>
+                              </div>
+                              {{/location}}
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                  <div class="tp-footer-widget footer-col-4-2 mb-50">
+                      <h4 class="tp-footer-widget-title">My Account</h4>
+                      <div class="tp-footer-widget-content">
+                        <ul>
+                            <li><a href="/customer">Track Orders</a></li>
+                            <li><a href="/customer">My Account</a></li>
+                            <li><a href="/customer">Order History</a></li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-lg-2 col-md-4 col-sm-5">
+                  <div class="tp-footer-widget footer-col-4-3 mb-50">
+                      <h4 class="tp-footer-widget-title">Quick Links</h4>
+                      <div class="tp-footer-widget-content">
+                        <ul>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/contact">Contact Us</a></li>
+                            <li><a href="{{terms}}" target="_blank">Terms &amp; Conditions</a></li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+                {{#socials}}
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7">
+                  <div class="tp-footer-widget footer-col-4-4 mb-50">
+                      <h4 class="tp-footer-widget-title">Follow Us On.</h4>
+                      <div class="tp-footer-widget-content">
+                        <div class="tp-footer-subscribe">
+                            <div class="tp-footer-social-4 tp-footer-social">
+                              {{#socials.facebook}}<a href="{{socials.facebook}}"><i class="fa-brands fa-facebook-f"></i></a>{{/socials.facebook}}
+                              {{#socials.twitter}}<a href="{{socials.twitter}}"><i class="fa-brands fa-twitter"></i></a>{{/socials.twitter}}
+                              {{#socials.instagram}}<a href="{{socials.instagram}}"><i class="fa-brands fa-instagram"></i></a>{{/socials.instagram}}
+                              {{#socials.tiktok}}<a href="{{socials.tiktok}}"><i class="fa-brands fa-tiktok"></i></a>{{/socials.tiktok}}
+                              {{#socials.youtube}}<a href="{{socials.youtube}}"><i class="fa-brands fa-youtube"></i></a>{{/socials.youtube}}
+                              {{#socials.snapchat}}<a href="{{socials.snapchat}}"><i class="fa-brands fa-snapchat-ghost"></i></a>{{/socials.snapchat}}
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                {{/socials}}
+            </div>
+          </div>
+      </div>
+      <div class="tp-footer-bottom">
+          <div class="container">
+            <div class="tp-footer-bottom-wrapper">
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-md-6">
+                      <div class="tp-footer-copyright text-center">
+                        <p id="copyright">&copy; <span id="currentYear"></span> All Rights Reserved.</p>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</footer>

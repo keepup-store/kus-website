@@ -16146,7 +16146,7 @@ product all slider
 }
 .tp-product-title-2 {
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 2px;
 }
 .tp-product-title-2 a:hover {
@@ -16182,7 +16182,7 @@ product all slider
   color: var(--tp-common-black);
 }
 .tp-product-price-2.new-price {
-  color: var(--tp-common-black);
+  color: var(--tp-theme-primary);
 }
 .tp-product-price-2.old-price {
   font-weight: 400;
