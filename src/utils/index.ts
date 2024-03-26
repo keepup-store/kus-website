@@ -73,3 +73,19 @@ export const getStoreAxiosHeaders = (store: string) => {
   const jwtAccessToken = jwt.sign({access_token}, process.env.JWT_KEY ?? '', { expiresIn: '1d' });
   return { headers: {"Authorization" : `Bearer ${jwtAccessToken}`} }
 }
+
+export const generateUrl = (input: string): string => {
+  // Check if the input contains only alphabets (a word)
+  const isWord: boolean = /^[a-zA-Z]+$/.test(input);
+
+  if (isWord) {
+      return `https://${input}.keepup.store`;
+  } else {
+      // Otherwise, assume it's a domain and add https to it
+      // Ensure that the domain starts with http:// or https:// before adding it
+      if (!input.startsWith('http://') && !input.startsWith('https://')) {
+          return `https://${input}`;
+      }
+      return input;
+  }
+}

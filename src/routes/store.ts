@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { extractStoreDomain, getLocation, getStoreAxiosHeaders } from '../utils';
+import { extractStoreDomain, generateUrl, getLocation, getStoreAxiosHeaders } from '../utils';
 import { baseURLs } from '../utils/constants';
 import axios from 'axios';
 
@@ -80,7 +80,8 @@ router.get('/products', async (req: Request, res: Response) => {
         filter: {
           search,
           category
-        }
+        },
+        host: generateUrl(host)
       });
 
   }).catch((error) => {

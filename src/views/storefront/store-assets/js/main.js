@@ -1793,7 +1793,7 @@
 			},
 		});
 	}
-	tp_ecommerce();
+	// tp_ecommerce();
 
 	
 
@@ -2040,7 +2040,37 @@
 				if (event.target.id === 'productList') {
 						document.getElementById('loader').style.display = 'none';
 						document.getElementById('productList').style.display = 'block';
+
+						var quantityInput = document.querySelector('.tp-cart-input');
+  					// Prevent scrolling from changing the input value
+						quantityInput.addEventListener('wheel', function(event) {
+							event.preventDefault();
+						});
 				}
 		});
 	});
+
+	
+
+
 })(jQuery);
+
+function copyToClipboard(text) {
+	navigator.clipboard.writeText(text);
+	alert("Copied the text: " + text);
+}
+
+function toggleVisibility(button) {
+	var descriptionSpan = button.previousElementSibling; // Selecting the description span
+	descriptionSpan.classList.toggle('description-expanded');
+	button.textContent = descriptionSpan.classList.contains('description-expanded') ? 'See less' : 'See more';
+}
+
+function addToCart() {
+	var input = document.getElementById('quantity-input');
+	var quantity = parseInt(input.value);
+
+	// Here you can add the product details to localStorage
+	// For demonstration, let's just log the quantity
+	console.log('Product added to cart with quantity:', quantity);
+}
