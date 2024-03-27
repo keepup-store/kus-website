@@ -1,40 +1,49 @@
 $(function() {
 
 	// Get the form.
-	var form = $('#contact-form');
+	var form = $('#cart-form');
 
 	// Get the messages div.
 	var formMessages = $('.ajax-response');
+	$(formMessages).addClass('d-none');
 
 	// Set up an event listener for the contact form.
 	$(form).submit(function(e) {
 		// Stop the browser from submitting the form.
 		e.preventDefault();
 
-		// Serialize the form data.
-		var formData = $(form).serialize();
+		var cartItems = JSON.parse(localStorage.getItem('cart_items')) || { items: [], subtotal: "0.00" };
+
+		// Get the value of the "Your Name" field
+    var name = $('#name').val();
+
+    // Get the value of the "Phone Number" field
+    var input = document.querySelector("#phone_number");
+
+    // Get the intlTelInput instance
+    var iti = window.intlTelInputGlobals.getInstance(input);
+
+    // Get the full phone number
+    var phoneNumber = iti.getNumber();
 
 		// Submit the form using AJAX.
 		$.ajax({
 			type: 'POST',
 			url: $(form).attr('action'),
-			data: formData
+			data: {
+				name,
+				phone_number: phoneNumber,
+				cart: JSON.stringify(cartItems.items)
+			}
 		})
 		.done(function(response) {
-			// Make sure that the formMessages div has the 'success' class.
-			$(formMessages).removeClass('error');
-			$(formMessages).addClass('success');
 
-			// Set the message text.
-			$(formMessages).text(response);
+			// clear cart
 
-			// Clear the form.
-			$('#contact-form input,#contact-form textarea').val('');
+			// redirect to checkout page
+			
 		})
 		.fail(function(data) {
-			// Make sure that the formMessages div has the 'error' class.
-			$(formMessages).removeClass('success');
-			$(formMessages).addClass('error');
 
 			// Set the message text.
 			if (data.responseText !== '') {
@@ -42,6 +51,7 @@ $(function() {
 			} else {
 				$(formMessages).text('Oops! An error occured and your message could not be sent.');
 			}
+			$(formMessages).removeClass('d-none');
 		});
 	});
 

@@ -8893,7 +8893,7 @@ body .ui-tooltip {
   position: relative;
 }
 .tp-postbox-details-input-box:not(:last-child) {
-  margin-bottom: 34px;
+  margin-bottom: 20px;
 }
 .tp-postbox-details-input input {
   height: 56px;
@@ -8922,7 +8922,7 @@ body .ui-tooltip {
   resize: none;
 }
 .tp-postbox-details-input-title label {
-  font-size: 14px;
+  font-size: 12px;
   color: var(--tp-common-black);
   position: absolute;
   top: -7px;
@@ -12668,7 +12668,7 @@ div.tp-blog-thumb img {
   margin-bottom: 34px;
 }
 .tp-contact-input input {
-  height: 56px;
+  height: 45px;
   background: #FFFFFF;
   border: 1px solid #E0E2E3;
   font-size: 14px;
@@ -14069,7 +14069,7 @@ div.tp-author-info-avater img {
   font-weight: 600;
 }
 .cartmini__widget {
-  height: calc(100vh - 250px);
+  height: calc(100vh - 350px);
   overflow-y: scroll;
   overscroll-behavior-y: contain;
   scrollbar-width: none;
@@ -21926,3 +21926,14 @@ product all slider
 }
 
 /*# sourceMappingURL=main.css.map */
+
+.variations-container {
+  max-height: 250px;
+  overflow: hidden;
+}
+.variations-container.show-all-variations {
+  max-height: none;
+}
+.iti {
+  width: 100%;
+}

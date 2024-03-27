@@ -26,6 +26,10 @@
       <link rel="stylesheet" href="store-assets/css/flaticon_shofy.css">
       <link rel="stylesheet" href="store-assets/css/spacing.css">
       <link rel="stylesheet" href="store-assets/css/main.css">
+      <link rel="stylesheet" href="store-assets/toasty-dist/toastify.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
       <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
    </head>
    <body>
@@ -178,51 +182,55 @@
       <!-- cart mini area start -->
       <div class="cartmini__area">
          <div class="cartmini__wrapper d-flex justify-content-between flex-column">
-             <div class="cartmini__top-wrapper">
-                 <div class="cartmini__top p-relative">
+            <div class="cartmini__top-wrapper">
+                  <div class="cartmini__top p-relative">
                      <div class="cartmini__top-title">
-                         <h4>Cart</h4>
+                        <h4>Cart</h4>
                      </div>
                      <div class="cartmini__close">
-                         <button type="button" class="cartmini__close-btn cartmini-close-btn"><i class="fal fa-times"></i></button>
+                        <button type="button" class="cartmini__close-btn cartmini-close-btn"><i class="fal fa-times"></i></button>
                      </div>
-                 </div>
-                 <div class="cartmini__widget">
-                     <div class="cartmini__widget-item">
-                         <div class="cartmini__thumb border-0">
-                           <a href="product-details.html">
-                              <img src="store-assets/img/product/product-1.jpg" alt="">
-                           </a>
-                         </div>
-                         <div class="cartmini__content">
-                           <h5 class="cartmini__title"><a href="product-details.html">Level Bolt Smart Lock</a></h5>
-                           <div class="cartmini__price-wrapper">
-                              <span class="cartmini__price">$46.00</span>
-                              <span class="cartmini__quantity">x2</span>
-                           </div>
-                         </div>
-                         <a href="#" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
-                     </div>
-                 </div>
-                 <!-- for wp -->
-                 <!-- if no item in cart -->
-                 <div class="cartmini__empty text-center d-none">
-                     <img src="store-assets/img/product/cartmini/empty-cart.png" alt="" width="120px">
+                  </div>
+                  <div class="cartmini__widget" id="cartItemsWrapper">
+                     <!-- Cart items will be dynamically generated here -->
+                  </div>
+                  <div class="cartmini__empty text-center d-none" id="cartEmpty">
+                     <i class="fa-regular fa-cart-shopping" style="font-size: 40px;padding: 20px;"></i>
                      <p>Your cart is empty</p>                     
-                 </div>
-             </div>
-             <div class="cartmini__checkout">
-                 <div class="cartmini__checkout-title mb-30">
+                  </div>
+            </div>
+            <div class="cartmini__checkout">
+                  <div class="cartmini__checkout-title mb-25">
                      <h4>Subtotal:</h4>
-                     <span>$113.00</span>
-                 </div>
-                 <div class="cartmini__checkout-btn">
-                     <a href="/checkout" class="tp-btn mb-10 w-100"> checkout</a>
-                 </div>
-             </div>
+                     <span id="subtotal">0.00</span>
+                  </div>
+                  <form action="/checkout" id="cart-form">
+                     <div class="tp-postbox-details-input-box">
+                        <div class="tp-contact-input">
+                           <input name="name" required id="name" type="text">
+                        </div>
+                        <div class="tp-postbox-details-input-title">
+                           <label for="name">Your Name</label>
+                        </div>
+                     </div>
+                     <div class="tp-postbox-details-input-box">
+                        <div class="tp-contact-input">
+                           <input name="phone_number" required id="phone_number" type="tel" class="intl-tel-input">
+                        </div>
+                        <div class="tp-postbox-details-input-title">
+                           <label for="phone_number">Phone Number</label>
+                        </div>
+                     </div>
+                     <p class="ajax-response text-danger mb-1 d-none" style="font-size: 12px;">Something goes here</p>
+                     <div class="cartmini__checkout-btn">
+                        <button id="checkout-btn" class="tp-btn mb-10 w-100"> checkout</button>
+                     </div>
+                  </form>
+            </div>
          </div>
-     </div>
-     <!-- cart mini area end -->
+      </div>
+
+      <!-- cart mini area end -->
 
       <!-- header area start -->
       <header>
@@ -306,7 +314,7 @@
                                           <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z" fill="currentColor"></path>
                                           <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z" fill="currentColor"></path>
                                        </svg>   
-                                       <span class="tp-header-action-badge">1</span>                                                                          
+                                       <span id="cart-badge" class="tp-header-action-badge d-none">0</span>                                                                          
                                     </button>
                                  </div>
                                  <div class="tp-header-action-item tp-header-hamburger mr-20 d-xl-none">
@@ -393,6 +401,7 @@
       <!-- footer area end -->      
 
       <!-- JS here -->
+      <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
       <script src="store-assets/js/vendor/jquery.js"></script>
       <script src="store-assets/js/vendor/waypoints.js"></script>
       <script src="store-assets/js/bootstrap-bundle.js"></script>
@@ -408,6 +417,7 @@
       <script src="store-assets/js/isotope-pkgd.js"></script>
       <script src="store-assets/js/imagesloaded-pkgd.js"></script>
       <script src="store-assets/js/ajax-form.js"></script>
+      <script src="store-assets/toasty-dist/toastify.js"></script>
       <script src="store-assets/js/main.js"></script>
       {{#brand_color}}
       <script>      

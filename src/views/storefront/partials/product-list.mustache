@@ -131,7 +131,7 @@
                                   <div class="tp-product-action-2 tp-product-action-blackStyle">
                                     <div class="tp-product-action-item-2 d-flex flex-column">
                                         {{^out_of_stock}}
-                                        <button type="button" class="tp-product-action-btn-2 tp-product-add-cart-btn">
+                                        <button type="button" class="tp-product-action-btn-2 tp-product-add-cart-btn" onclick="quickAddToCart('{{product_id}}','{{product_name}}','{{selling_price}}','{{thumbnail}}','{{currency}}')">
                                           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                               <path fill-rule="evenodd" clip-rule="evenodd" d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z" fill="currentColor"/>
                                               <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z" fill="currentColor"/>
@@ -233,7 +233,7 @@
                                         
                                         {{^out_of_stock}}
                                         <div class="tp-product-list-add-to-cart">
-                                          <button class="tp-product-list-add-to-cart-btn">Add To Cart</button>
+                                          <button class="tp-product-list-add-to-cart-btn" onclick="quickAddToCart('{{product_id}}','{{product_name}}','{{selling_price}}','{{thumbnail}}','{{currency}}')">Add To Cart</button>
                                         </div>
                                         {{/out_of_stock}}
                                     </div>
@@ -305,10 +305,6 @@
                                     {{#out_of_stock}}
                                     <span>Out of Stock</span>
                                     {{/out_of_stock}}
-                                    
-                                    {{^out_of_stock}}
-                                    <span>In Stock</span>
-                                    {{/out_of_stock}}
                                 </div>
                               </div>
                               
@@ -326,11 +322,7 @@
                                 {{/previous_price}}
                                 <span class="tp-product-details-price new-price">{{currency}} {{selling_price}}</span>
                               </div>
-        
-                              <!-- variations -->
-                              <div class="tp-product-details-variation">
-                                
-                              </div>
+                                    
         
                               <!-- add to cart -->
                               {{^out_of_stock}}
@@ -343,11 +335,41 @@
                                       </div>
                                     </div>
                                     <div class="tp-product-details-add-to-cart mb-15 w-100">
-                                      <button class="tp-product-details-add-to-cart-btn w-100">Add To Cart</button>
+                                      <button class="tp-product-details-add-to-cart-btn w-100" onclick="addToCart('{{product_id}}','{{product_name}}','{{selling_price}}','{{thumbnail}}','{{currency}}')">Add To Cart</button>
                                     </div>
                                 </div>
                               </div>
                               {{/out_of_stock}}
+
+                              <!-- variations -->
+                              {{#has_variants}}
+                              <div class="tp-product-details-variation border-top pt-30">
+                                <h3 class="tp-product-details-action-title">Variations</h3>
+                                <div class="variations-container">
+                                  {{#variants}}
+                                  <div class="cartmini__widget-item pt-0 border-0">
+                                      <div class="cartmini__thumb border-0">
+                                          <a href="product/{{product_id}}_{{product_name}}">
+                                              <img src="{{thumbnail}}" alt="{{product_name}}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';">
+                                          </a>
+                                      </div>
+                                      <div class="cartmini__content">
+                                          <h5 class="cartmini__title">
+                                            <a href="product/{{product_id}}_{{product_name}}">
+                                              {{product_name}}
+                                              {{#out_of_stock}}<small><span class="badge bg-danger">Out of Stock</span></small>{{/out_of_stock}}
+                                            </a>
+                                          </h5>
+                                          <div class="cartmini__price-wrapper">
+                                              <span class="cartmini__price">{{currency}} {{selling_price}}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  {{/variants}}
+                                </div>
+                                <span class="see-more" onclick="toggleVariations(this)">See more</span>
+                              </div>
+                              {{/has_variants}}
 
                               <!-- category and tags -->
                               <div class="tp-product-details-query border-top pt-30">

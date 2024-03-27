@@ -32,6 +32,7 @@
 	// 01. PreLoader Js
 	windowOn.on('load', function () {
 		$("#loading").fadeOut(500);
+		updateCartItems();		
 	});
 
 	if ($('.tp-header-height').length > 0) {
@@ -2023,6 +2024,20 @@
 
 
 	document.addEventListener('DOMContentLoaded', function () {
+		var input = document.querySelector("#phone_number");
+    window.intlTelInput(input, {
+        initialCountry: "auto",
+        separateDialCode: true,
+				hiddenInput: "full_phone_number",
+				geoIpLookup: function(callback) {
+					fetch("https://ipinfo.io/json")
+					.then(response => response.json())
+					.then(data => callback(data.country))
+					.catch(() => callback(""));
+				},
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
+
 		// Show loader when products are being requested
 		document.body.addEventListener('htmx:beforeSend', function (event) {
 			
@@ -2036,17 +2051,16 @@
 
 		// Show products container when products are loaded
 		document.body.addEventListener('htmx:afterSwap', function (event) {
-			console.log('testing hide event');
-				if (event.target.id === 'productList') {
-						document.getElementById('loader').style.display = 'none';
-						document.getElementById('productList').style.display = 'block';
+			if (event.target.id === 'productList') {
+					document.getElementById('loader').style.display = 'none';
+					document.getElementById('productList').style.display = 'block';
 
-						var quantityInput = document.querySelector('.tp-cart-input');
-  					// Prevent scrolling from changing the input value
-						quantityInput.addEventListener('wheel', function(event) {
-							event.preventDefault();
-						});
-				}
+					var quantityInput = document.querySelector('.tp-cart-input');
+					// Prevent scrolling from changing the input value
+					quantityInput.addEventListener('wheel', function(event) {
+						event.preventDefault();
+					});
+			}
 		});
 	});
 
@@ -2055,9 +2069,14 @@
 
 })(jQuery);
 
+function formatTo2DP (amount) {
+	return parseFloat((Math.round(amount * 100) / 100).toFixed(2));
+}
+
 function copyToClipboard(text) {
 	navigator.clipboard.writeText(text);
-	alert("Copied the text: " + text);
+	// Show toast notification
+	showToast("Copied product link");
 }
 
 function toggleVisibility(button) {
@@ -2066,11 +2085,214 @@ function toggleVisibility(button) {
 	button.textContent = descriptionSpan.classList.contains('description-expanded') ? 'See less' : 'See more';
 }
 
-function addToCart() {
-	var input = document.getElementById('quantity-input');
+function addToCart(product_id, product_name, price, thumbnail, currency) {
+	var input = document.getElementById(''+product_id+'-quantity-input');
 	var quantity = parseInt(input.value);
+	price = parseFloat(price);
 
-	// Here you can add the product details to localStorage
-	// For demonstration, let's just log the quantity
-	console.log('Product added to cart with quantity:', quantity);
+	// Calculate total price with two decimal places
+	var totalPrice = formatTo2DP(price * quantity);
+
+	// Create a product object
+	var product = {
+			product_id,
+			thumbnail: thumbnail ?? 'store-assets/img/product/box_icon.jpg',
+			product_name,
+			price,
+			quantity,
+			total_price: totalPrice
+	};
+
+	// Retrieve existing cart items from localStorage
+	var cartItems = JSON.parse(localStorage.getItem('cart_items')) || { items: [], subtotal: "0.00" };
+
+	// Check if the product already exists in the cart
+	var existingProductIndex = cartItems.items.findIndex(function(item) {
+			return item.product_id === product_id;
+	});
+
+	if (existingProductIndex !== -1) {
+			// Update the quantity of the existing product
+			cartItems.items[existingProductIndex].quantity = quantity;
+			// Update the total price of the existing product
+			cartItems.items[existingProductIndex].total_price = formatTo2DP(cartItems.items[existingProductIndex].price * cartItems.items[existingProductIndex].quantity);
+	} else {
+			// Add the new product to the cart
+			cartItems.items.push(product);
+	}
+
+	// Calculate subtotal
+	var subtotal = calculateSubtotal(cartItems.items);
+
+	// Update the subtotal and currency in the cartItems object
+	cartItems.subtotal = numeral(subtotal).format('0,0.00');
+	cartItems.currency = currency;
+
+
+	// Store the updated cart items back in localStorage
+	localStorage.setItem('cart_items', JSON.stringify(cartItems));
+
+	// update cart
+	updateCartItems();
+
+	// Show toast notification
+	showToast('Item added to cart');
+}
+
+function quickAddToCart(product_id, product_name, price, thumbnail, currency) {
+	var quantity = 1;
+	price = parseFloat(price);
+
+	// Calculate total price with two decimal places
+	var totalPrice = formatTo2DP(price * quantity);
+
+	// Create a product object
+	var product = {
+			product_id,
+			thumbnail: thumbnail ?? 'store-assets/img/product/box_icon.jpg',
+			product_name,
+			price,
+			quantity,
+			total_price: totalPrice
+	};
+
+	// Retrieve existing cart items from localStorage
+	var cartItems = JSON.parse(localStorage.getItem('cart_items')) || { items: [], subtotal: "0.00" };
+	
+	// Check if the product already exists in the cart
+	var existingProductIndex = cartItems.items.findIndex(function(item) {
+			return item.product_id === product_id;
+	});
+	
+	if (existingProductIndex !== -1) {
+			// Update the quantity of the existing product
+			cartItems.items[existingProductIndex].quantity = quantity;
+			// Update the total price of the existing product
+			cartItems.items[existingProductIndex].total_price = formatTo2DP(cartItems.items[existingProductIndex].price * cartItems.items[existingProductIndex].quantity);
+	} else {
+			// Add the new product to the cart
+			cartItems.items.push(product);
+	}
+	
+	// Calculate subtotal
+	var subtotal = calculateSubtotal(cartItems.items);
+
+	// Update the subtotal and currency in the cartItems object
+	cartItems.subtotal = numeral(subtotal).format('0,0.00');
+	cartItems.currency = currency
+
+
+	// Store the updated cart items back in localStorage
+	localStorage.setItem('cart_items', JSON.stringify(cartItems));
+
+	// update cart
+	updateCartItems();
+
+	// Show toast notification
+	showToast('Item added to cart');
+}
+
+// Function to calculate subtotal
+function calculateSubtotal(cartItems) {
+	return cartItems.reduce(function(acc, item) {
+			return acc + parseFloat(item.total_price);
+	}, 0);
+}
+
+function showToast(message) {
+	Toastify({
+		text: message,
+		duration: 1200
+	}).showToast();
+}
+
+// Function to remove an item from the cart
+function removeFromCart(index) {
+	// Retrieve cartItems from localStorage
+	var cartItems = JSON.parse(localStorage.getItem('cart_items')) || { items: [], subtotal: "0.00" };
+
+	// Check if the index is valid
+	if (index >= 0 && index < cartItems.items.length) {
+			// Remove the item at the specified index
+			cartItems.items.splice(index, 1);
+
+			var subtotal = calculateSubtotal(cartItems.items);
+
+			// Update the subtotal and currency in the cartItems object
+			cartItems.subtotal = numeral(subtotal).format('0,0.00');
+
+			// Update cartItems in localStorage
+			localStorage.setItem('cart_items', JSON.stringify(cartItems));
+
+			// Call updateCartItems to refresh the cart display
+			updateCartItems();
+	}
+}
+
+
+// Function to update the cart items in the HTML
+function updateCartItems() {
+	// Retrieve existing cart items from localStorage
+	var cartItems = JSON.parse(localStorage.getItem('cart_items')) || { items: [], subtotal: "0.00" };
+
+	var cartItemsWrapper = document.getElementById('cartItemsWrapper');
+	var cartEmpty = document.getElementById('cartEmpty');
+	var subtotalElement = document.getElementById('subtotal');
+	var cartBadgeElement = document.getElementById('cart-badge');
+
+	// Clear existing cart items
+	cartItemsWrapper.innerHTML = '';
+
+	if (cartItems.items.length > 0) {
+			// Loop through the cart items and generate HTML for each item
+			cartItems.items.forEach(function(item, index) {
+					var itemHTML = `
+					<div class="cartmini__widget-item">
+							<div class="cartmini__thumb border-0">
+									<a href="product/${item.product_id}_${item.product_name}">
+											<img src="${item.thumbnail}" alt="${item.product_name}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';">
+									</a>
+							</div>
+							<div class="cartmini__content">
+									<h5 class="cartmini__title"><a href="product/${item.product_id}_${item.product_name}">${item.product_name}</a></h5>
+									<div class="cartmini__price-wrapper">
+											<span class="cartmini__price">${cartItems.currency} ${item.total_price}</span>
+											<span class="cartmini__quantity">x${item.quantity}</span>
+									</div>
+							</div>
+							<a href="#" onclick="removeFromCart(${index})" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
+					</div>
+					`;
+					cartItemsWrapper.innerHTML += itemHTML;
+			});
+
+			// show the cart wrapper
+			cartItemsWrapper.classList.remove('d-none');
+
+			// show cart badge
+			cartBadgeElement.textContent = cartItems.items.length;
+			cartBadgeElement.classList.remove('d-none');
+
+			// Hide the cart empty message
+			cartEmpty.classList.add('d-none');
+	} else {
+			// Hide the cart wrapper
+			cartItemsWrapper.classList.add('d-none');
+
+			// hide cart badge
+			cartBadgeElement.classList.add('d-none');
+			cartBadgeElement.textContent = 0;
+			
+			// Show the cart empty message
+			cartEmpty.classList.remove('d-none');
+	}
+
+	// Update the subtotal
+	subtotalElement.textContent = `${cartItems.currency} ${cartItems.subtotal}`;
+}
+
+function toggleVariations(button) {
+	var descriptionSpan = button.previousElementSibling; // Selecting the description span
+	descriptionSpan.classList.toggle('show-all-variations');
+	button.textContent = descriptionSpan.classList.contains('show-all-variations') ? 'See less' : 'See more';
 }
