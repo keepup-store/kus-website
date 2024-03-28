@@ -12,20 +12,20 @@ router.get('/', async (req: Request, res: Response) => {
   const ipAddress = req.clientIp;
 
   console.log({host});
-  host = 'glampack';
+  // host = 'glampack';
 
   // if host is keepup.store go to home page
-  // if(!host || host === 'localhost:7000'){
-  //   let plans = subscriptionPackages;
+  if(!host || host === 'localhost:7000'){
+    let plans = subscriptionPackages;
 
-  //   if(ipAddress) {
-  //     let location = await getLocation(ipAddress);
-  //     return res.render('website/index', { 
-  //       plans: subsidizedCountries.includes(location.countryCode) ? plans.GHS : plans.USD,
-  //       urls: baseURLs
-  //     });        
-  //   }    
-  // } 
+    if(ipAddress) {
+      let location = await getLocation(ipAddress);
+      return res.render('website/index', { 
+        plans: subsidizedCountries.includes(location.countryCode) ? plans.GHS : plans.USD,
+        urls: baseURLs
+      });        
+    }    
+  } 
 
   let { 
 		search, 
