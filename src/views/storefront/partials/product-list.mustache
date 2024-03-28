@@ -110,13 +110,13 @@
                         <div class="col-xl-4 col-md-6 col-sm-6 infinite-item">
                             <div class="tp-product-item-2 mb-40">
                               <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
-                                  <a href="product/{{product_id}}_{{product_name}}">
+                                  <a href="store/product/{{product_id}}_{{product_name}}">
                                     {{#thumbnail}}
                                       <img src="{{ thumbnail }}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';" alt="{{product_name}}">
                                     {{/thumbnail}}
 
                                     {{^thumbnail}}
-                                      <img src="store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
+                                      <img src="/store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
                                     {{/thumbnail}}
                                   </a>
 
@@ -160,7 +160,7 @@
                                     <a href="#">Whitetails Store</a>
                                   </div> }}
                                   <h3 class="tp-product-title-2">
-                                    <a href="product/{{product_id}}_{{product_name}}">{{product_name}}</a>
+                                    <a href="store/product/{{product_id}}_{{product_name}}">{{product_name}}</a>
                                   </h3>
                                   <div class="tp-product-price-wrapper-2 mt-2">
                                     <span class="tp-product-price-2 new-price">{{currency}} {{selling_price}}</span>
@@ -183,13 +183,13 @@
                               {{#products}}
                               <div class="tp-product-list-item d-md-flex">
                                   <div class="tp-product-list-thumb p-relative fix">
-                                    <a href="product/{{product_id}}_{{product_name}}">
+                                    <a href="store/product/{{product_id}}_{{product_name}}">
                                       {{#thumbnail}}
                                         <img src="{{ thumbnail }}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';" alt="{{product_name}}">
                                       {{/thumbnail}}
 
                                       {{^thumbnail}}
-                                        <img src="store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
+                                        <img src="/store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
                                       {{/thumbnail}}
                                     </a>
 
@@ -221,7 +221,7 @@
                                           <a href="#">Branded</a>
                                         </div> }}
                                         <h3 class="tp-product-title-2">
-                                          <a href="product/{{product_id}}_{{product_name}}">{{product_name}}</a>
+                                          <a href="store/product/{{product_id}}_{{product_name}}">{{product_name}}</a>
                                         </h3>
                                         <div class="tp-product-price-wrapper-2 mt-2">
                                           <span class="tp-product-price-2 new-price">{{currency}} {{selling_price}}</span>
@@ -282,7 +282,7 @@
                               <div class="tab-content m-img" id="productDetailsNavContent">
                                 <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab" tabindex="0">
                                     <div class="tp-product-details-nav-main-thumb">
-                                        <img src="store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
+                                        <img src="/store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
                                     </div>
                                 </div>
                               </div>
@@ -349,13 +349,13 @@
                                   {{#variants}}
                                   <div class="cartmini__widget-item pt-0 border-0">
                                       <div class="cartmini__thumb border-0">
-                                          <a href="product/{{product_id}}_{{product_name}}">
+                                          <a href="store/product/{{product_id}}_{{product_name}}">
                                               <img src="{{thumbnail}}" alt="{{product_name}}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';">
                                           </a>
                                       </div>
                                       <div class="cartmini__content">
                                           <h5 class="cartmini__title">
-                                            <a href="product/{{product_id}}_{{product_name}}">
+                                            <a href="store/product/{{product_id}}_{{product_name}}">
                                               {{product_name}}
                                               {{#out_of_stock}}<small><span class="badge bg-danger">Out of Stock</span></small>{{/out_of_stock}}
                                             </a>

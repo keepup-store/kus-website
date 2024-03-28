@@ -91,4 +91,59 @@ router.get('/products', async (req: Request, res: Response) => {
 
 });
 
+router.get('/product/:product_id', async (req: Request, res: Response) => {
+  let host = extractStoreDomain(req);
+  const ipAddress = req.clientIp;
+
+  host = 'glampack';
+
+  // if host is keepup.store go to 404 page
+  // if(!host || host === 'localhost:7000'){
+  //   return res.redirect('/404');
+  // } 
+
+  let { product_id } = req.params;
+  product_id = typeof product_id === 'string' ? product_id : '';
+
+  if(!product_id){
+    return res.redirect('/404');
+  }
+
+  product_id = product_id.split("_")[0]
+
+  // get products
+  axios.get(baseURLs.API_URL + `/online-store/product/${product_id}`, {
+    headers: getStoreAxiosHeaders(host).headers
+  })
+  .then((response) => {
+      let responseInfo = response.data;
+      let storeInfo = responseInfo.data.business_info;
+      let categories = responseInfo.data.categories;
+
+      return res.render('storefront/product-details', { 
+        business_name: storeInfo.business_name,
+        logo: storeInfo.logo,
+        header_logo: storeInfo.header_logo,
+        brand_color: storeInfo.brand_color,
+        currency: storeInfo.currency,
+        phone_number: storeInfo.phone_number,
+        email: storeInfo.email,
+        location: storeInfo.address,
+        description: storeInfo.description,
+        landscape_banner: storeInfo.landscape_banner,
+        portrait_banner: storeInfo.portrait_banner,
+        socials: storeInfo.socials,
+        terms: storeInfo.terms,
+        product_info: responseInfo.data.product_info,
+        categories,
+        host: generateUrl(host)
+      });
+
+  }).catch((error) => {
+    console.log({error});
+    return res.redirect('/404');
+  });
+
+});
+
 export default router;

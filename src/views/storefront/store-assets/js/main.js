@@ -2249,12 +2249,12 @@ function updateCartItems() {
 					var itemHTML = `
 					<div class="cartmini__widget-item">
 							<div class="cartmini__thumb border-0">
-									<a href="product/${item.product_id}_${item.product_name}">
+									<a href="store/product/${item.product_id}_${item.product_name}">
 											<img src="${item.thumbnail}" alt="${item.product_name}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';">
 									</a>
 							</div>
 							<div class="cartmini__content">
-									<h5 class="cartmini__title"><a href="product/${item.product_id}_${item.product_name}">${item.product_name}</a></h5>
+									<h5 class="cartmini__title"><a href="store/product/${item.product_id}_${item.product_name}">${item.product_name}</a></h5>
 									<div class="cartmini__price-wrapper">
 											<span class="cartmini__price">${cartItems.currency} ${item.total_price}</span>
 											<span class="cartmini__quantity">x${item.quantity}</span>

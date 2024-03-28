@@ -543,7 +543,9 @@ input[type=color] {
 }
 
 .m-img img {
-  max-width: 100%;
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
 }
 
 .fix {
@@ -21928,7 +21930,7 @@ product all slider
 /*# sourceMappingURL=main.css.map */
 
 .variations-container {
-  max-height: 250px;
+  max-height: 235px;
   overflow: hidden;
 }
 .variations-container.show-all-variations {
