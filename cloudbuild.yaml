@@ -1,0 +1,44 @@
+steps:
+  # Build the container image
+  - id: Building the container image
+    name: gcr.io/cloud-builders/docker
+    args: 
+      - 'build' 
+      - '-t' 
+      - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}-img:${SHORT_SHA}' 
+      - '-f' 
+      - 'Dockerfile' 
+      - '.'
+
+  # Push the container image to Container Registry
+  - id: Pushing the image to registry
+    name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'push' 
+      - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}-img:${SHORT_SHA}'
+
+  # Deploy container image to Cloud Run
+  - id: Deploying the image to Cloud Run
+    name: 'gcr.io/cloud-builders/gcloud'
+    args: 
+      - 'run' 
+      - 'deploy' 
+      - '${_SERVICE_NAME}' 
+      - '--image' 
+      - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}-img:${SHORT_SHA}' 
+      - '--region' 
+      - 'us-central1'
+      - '--port' 
+      - '${_PORT}'
+      - '--platform' 
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--update-env-vars'
+      - 'API_MODE=${_API_MODE}'
+      - '--update-secrets'
+      - 'JWT_KEY=JWT_KEY:latest'
+      - '--update-secrets'
+      - 'TELEGRAM_BOT_API_KEY=TELEGRAM_BOT_API_KEY:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

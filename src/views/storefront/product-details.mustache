@@ -391,7 +391,7 @@
 
       <main>
          <!-- shop area start -->
-         <section class="tp-product-details-area pt-50">
+         <section class="tp-product-details-area tp-product-details-bottom pt-50">
             <div class="tp-product-details-top pb-115">
               <div class="container">
                 <div class="row">
@@ -402,7 +402,7 @@
                           <div class="nav nav-tabs flex-sm-column " id="productDetailsNavThumb" role="tablist">
                               {{#product_info.images}}
                               <button class="nav-link {{#is_primary}}active{{/is_primary}}" id="nav-{{id}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{id}}" type="button" role="tab" aria-controls="nav-{{id}}" aria-selected="{{is_primary}}">
-                                  <img src="{{ url }}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';" alt="{{product_info.product_name}}">
+                                  <img src="{{ url }}" onerror="this.onerror=null; this.src='/store-assets/img/product/box_icon.jpg';" alt="{{product_info.product_name}}">
                               </button>
                               {{/product_info.images}}
                           </div>
@@ -411,7 +411,7 @@
                           {{#product_info.images}}
                           <div class="tab-pane fade {{#is_primary}}show active{{/is_primary}}" id="nav-{{id}}" role="tabpanel" aria-labelledby="nav-{{id}}-tab" tabindex="0">
                               <div class="tp-product-details-nav-main-thumb">
-                                  <img src="{{ url }}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';" alt="{{product_info.product_name}}">
+                                  <img src="{{ url }}" onerror="this.onerror=null; this.src='/store-assets/img/product/box_icon.jpg';" alt="{{product_info.product_name}}">
                               </div>
                           </div>
                           {{/product_info.images}}
@@ -490,7 +490,7 @@
                             <div class="cartmini__widget-item pt-0 border-0">
                                 <div class="cartmini__thumb border-0">
                                     <a href="/store/product/{{product_id}}_{{product_name}}">
-                                        <img src="{{thumbnail}}" alt="{{product_name}}" onerror="this.onerror=null; this.src='store-assets/img/product/box_icon.jpg';">
+                                        <img src="{{thumbnail}}" alt="{{product_name}}" onerror="this.onerror=null; this.src='/store-assets/img/product/box_icon.jpg';">
                                     </a>
                                 </div>
                                 <div class="cartmini__content">
@@ -551,7 +551,263 @@
               </div>
             </div>
          </section>
-         <!-- shop area end -->         
+         <!-- shop area end -->   
+
+         <!-- related product area start -->
+         {{#has_related_products}}
+         <section class="tp-related-product pt-95 pb-120">
+            <div class="container">
+               <div class="row">
+                  <div class="tp-section-title-wrapper-6 text-center mb-40">
+                     <h3 class="tp-section-title-6">Related Products</h3>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="tp-product-related-slider">
+                     <div class="tp-product-related-slider-active swiper-container  mb-10">
+                        <div class="swiper-wrapper">
+                          {{#related_products}}
+                           <div class="swiper-slide">
+                              <div class="tp-product-item-2 mb-40">
+                                <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
+                                    <a href="/store/product/{{product_id}}_{{product_name}}">
+                                      {{#thumbnail}}
+                                        <img src="{{ thumbnail }}" onerror="this.onerror=null; this.src='/store-assets/img/product/box_icon.jpg';" alt="{{product_name}}">
+                                      {{/thumbnail}}
+
+                                      {{^thumbnail}}
+                                        <img src="/store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
+                                      {{/thumbnail}}
+                                    </a>
+
+                                    <!-- stock status -->
+                                    {{#out_of_stock}}
+                                    <div class="tp-product-badge">
+                                        <span class="product-offer">Out of Stock</span>
+                                    </div>
+                                    {{/out_of_stock}}
+
+                                    <!-- product action -->
+                                    <div class="tp-product-action-2 tp-product-action-blackStyle">
+                                      <div class="tp-product-action-item-2 d-flex flex-column">
+                                          {{^out_of_stock}}
+                                          <button type="button" class="tp-product-action-btn-2 tp-product-add-cart-btn" onclick="quickAddToCart('{{product_id}}','{{product_name}}','{{selling_price}}','{{thumbnail}}','{{currency}}')">
+                                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z" fill="currentColor"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z" fill="currentColor"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z" fill="currentColor"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z" fill="currentColor"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z" fill="currentColor"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z" fill="currentColor"/>
+                                            </svg>                                          
+                                            <span class="tp-product-tooltip tp-product-tooltip-right">Add to Cart</span>
+                                          </button>
+                                          {{/out_of_stock}}
+                                          
+                                          <button type="button" class="tp-product-action-btn-2 tp-product-quick-view-btn" data-bs-toggle="modal" data-bs-target="#producQuickViewModal_{{product_id}}">
+                                            <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z" fill="currentColor"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z" fill="currentColor"/>
+                                            </svg>                                                                       
+                                            <span class="tp-product-tooltip tp-product-tooltip-right">Quick View</span>
+                                          </button>
+                                          
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="tp-product-content-2 pt-15">
+                                    {{! <div class="tp-product-tag-2">
+                                      <a href="#">Whitetails Store</a>
+                                    </div> }}
+                                    <h3 class="tp-product-title-2">
+                                      <a href="/store/product/{{product_id}}_{{product_name}}">{{product_name}}</a>
+                                    </h3>
+                                    <div class="tp-product-price-wrapper-2 mt-2">
+                                      <span class="tp-product-price-2 new-price">{{currency}} {{selling_price}}</span>
+                                      {{#previous_price}}
+                                        <span class="tp-product-price-2 old-price">{{currency}} {{previous_price}}</span>
+                                      {{/previous_price}}
+                                    </div>
+                                </div>
+                              </div>
+                           </div>
+                          {{/related_products}}
+                        </div>
+                     </div>
+                     <div class="tp-related-swiper-scrollbar tp-swiper-scrollbar"></div>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+          <!-- quick view modal -->
+          {{#related_products}}
+          <div class="modal fade tp-product-modal" id="producQuickViewModal_{{product_id}}" tabindex="-1" aria-labelledby="producQuickViewModal_{{product_id}}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="tp-product-modal-content d-lg-flex align-items-start">
+                    <button type="button" class="tp-product-modal-close-btn" data-bs-toggle="modal" data-bs-target="#producQuickViewModal_{{product_id}}"><i class="fa-regular fa-xmark"></i></button>
+                    <div class="row">
+                      <div class="col-xl-7 col-lg-6">
+                        <div class="tp-product-details-thumb-wrapper tp-tab d-sm-flex m-0">
+                            {{#thumbnail}}
+                            <nav>
+                              <div class="nav nav-tabs flex-sm-column " id="productDetailsNavThumb" role="tablist">
+                                  {{#images}}
+                                  <button class="nav-link {{#is_primary}}active{{/is_primary}}" id="nav-{{id}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{id}}" type="button" role="tab" aria-controls="nav-{{id}}" aria-selected="{{is_primary}}">
+                                      <img src="{{ url }}" onerror="this.onerror=null; this.src='/store-assets/img/product/box_icon.jpg';" alt="{{product_name}}">
+                                  </button>
+                                  {{/images}}
+                              </div>
+                            </nav>
+                            <div class="tab-content m-img" id="productDetailsNavContent">
+                              {{#images}}
+                              <div class="tab-pane fade {{#is_primary}}show active{{/is_primary}}" id="nav-{{id}}" role="tabpanel" aria-labelledby="nav-{{id}}-tab" tabindex="0">
+                                  <div class="tp-product-details-nav-main-thumb">
+                                      <img src="{{ url }}" onerror="this.onerror=null; this.src='/store-assets/img/product/box_icon.jpg';" alt="{{product_name}}">
+                                  </div>
+                              </div>
+                              {{/images}}
+                            </div>
+                            {{/thumbnail}}
+
+                            {{^thumbnail}}
+                            <div class="tab-content m-img" id="productDetailsNavContent">
+                              <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab" tabindex="0">
+                                  <div class="tp-product-details-nav-main-thumb">
+                                      <img src="/store-assets/img/product/box_icon.jpg" alt="{{product_name}}">
+                                  </div>
+                              </div>
+                            </div>
+                            {{/thumbnail}}
+                        </div>
+                      </div>
+                      <div class="col-xl-5 col-lg-6">
+                        <div class="tp-product-details-wrapper">
+                            {{#category}}
+                            <div class="tp-product-details-category">
+                              <span>{{category}}</span>
+                            </div>
+                            {{/category}}
+                            <h3 class="tp-product-details-title">{{product_name}}</h3>
+      
+                            <!-- inventory details -->
+                            
+                            <div class="tp-product-details-inventory d-flex align-items-center mb-10">
+                              <div class="tp-product-details-stock mb-10">
+                                  {{#out_of_stock}}
+                                  <span>Out of Stock</span>
+                                  {{/out_of_stock}}
+                              </div>
+                            </div>
+                            
+                            {{#description}}
+                            <p>
+                              <span class="tp-product-description">{{description}}</span>
+                              <span class="see-more" onclick="toggleVisibility(this)">See more</span>
+                            </p>
+                            {{/description}}
+      
+                            <!-- price -->
+                            <div class="tp-product-details-price-wrapper mb-20">
+                              {{#previous_price}}
+                              <span class="tp-product-details-price old-price">{{currency}} {{previous_price}}</span>
+                              {{/previous_price}}
+                              <span class="tp-product-details-price new-price">{{currency}} {{selling_price}}</span>
+                            </div>
+                                  
+      
+                            <!-- add to cart -->
+                            {{^out_of_stock}}
+                            <div class="tp-product-details-action-wrapper">
+                              <h3 class="tp-product-details-action-title">Quantity</h3>
+                              <div class="tp-product-details-action-item-wrapper d-flex align-items-center">
+                                  <div class="tp-product-details-quantity">
+                                    <div class="tp-product-quantity mb-15 mr-15">
+                                        <input id="{{product_id}}-quantity-input" class="tp-cart-input" max="{{quantity}}" min="1" type="number" value="1">
+                                    </div>
+                                  </div>
+                                  <div class="tp-product-details-add-to-cart mb-15 w-100">
+                                    <button class="tp-product-details-add-to-cart-btn w-100" onclick="addToCart('{{product_id}}','{{product_name}}','{{selling_price}}','{{thumbnail}}','{{currency}}')">Add To Cart</button>
+                                  </div>
+                              </div>
+                            </div>
+                            {{/out_of_stock}}
+
+                            <!-- variations -->
+                            {{#has_variants}}
+                            <div class="tp-product-details-variation border-top pt-30">
+                              <h3 class="tp-product-details-action-title">Variations</h3>
+                              <div class="variations-container">
+                                {{#variants}}
+                                <div class="cartmini__widget-item pt-0 border-0">
+                                    <div class="cartmini__thumb border-0">
+                                        <a href="/store/product/{{product_id}}_{{product_name}}">
+                                            <img src="{{thumbnail}}" alt="{{product_name}}" onerror="this.onerror=null; this.src='/store-assets/img/product/box_icon.jpg';">
+                                        </a>
+                                    </div>
+                                    <div class="cartmini__content">
+                                        <h5 class="cartmini__title">
+                                          <a href="/store/product/{{product_id}}_{{product_name}}">
+                                            {{product_name}}
+                                            {{#out_of_stock}}<small><span class="badge bg-danger">Out of Stock</span></small>{{/out_of_stock}}
+                                          </a>
+                                        </h5>
+                                        <div class="cartmini__price-wrapper">
+                                            <span class="cartmini__price">{{currency}} {{selling_price}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/variants}}
+                              </div>
+                              <span class="see-more" onclick="toggleVariations(this)">See more</span>
+                            </div>
+                            {{/has_variants}}
+
+                            <!-- category and tags -->
+                            <div class="tp-product-details-query border-top pt-30">
+                              {{#SKU}}
+                              <div class="tp-product-details-query-item d-flex align-items-center">
+                                <span>SKU:  </span>
+                                <p>{{SKU}}</p>
+                              </div>
+                              {{/SKU}}
+
+                              {{#category}}
+                              <div class="tp-product-details-query-item d-flex align-items-center">
+                                <span>Category:  </span>
+                                <p>{{category}}</p>
+                              </div>
+                              {{/category}}
+
+                              {{#tags}}
+                              <div class="tp-product-details-query-item d-flex align-items-center">
+                                <span>Tag: </span>
+                                <p>{{.}}</p>
+                              </div>
+                              {{/tags}}
+                            </div>
+
+                            <!-- share -->
+                            <div class="tp-product-details-social">
+                                <span>Share: </span>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{host}}/product/{{product_id}}_{{product_name}}" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://twitter.com/intent/tweet?url={{host}}/product/{{product_id}}_{{product_name}}" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="https://www.instagram.com/share?url={{host}}/product/{{product_id}}_{{product_name}}" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://www.linkedin.com/shareArticle?url={{host}}/product/{{product_id}}_{{product_name}}" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" onclick="copyToClipboard('{{host}}/product/{{product_id}}_{{product_name}}')"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                            
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          {{/related_products}}
+         {{/has_related_products}}
+         <!-- related product area end -->
       </main>
       
 

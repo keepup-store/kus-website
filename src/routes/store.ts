@@ -119,6 +119,7 @@ router.get('/product/:product_id', async (req: Request, res: Response) => {
       let responseInfo = response.data;
       let storeInfo = responseInfo.data.business_info;
       let categories = responseInfo.data.categories;
+      let related_products = responseInfo.data.related_products;
 
       return res.render('storefront/product-details', { 
         business_name: storeInfo.business_name,
@@ -136,6 +137,8 @@ router.get('/product/:product_id', async (req: Request, res: Response) => {
         terms: storeInfo.terms,
         product_info: responseInfo.data.product_info,
         categories,
+        has_related_products: related_products.length > 0 ? true : false,
+        related_products,
         host: generateUrl(host)
       });
 
